@@ -38,7 +38,25 @@
 
 //end insert image
 
+//multipule image insert
 
+    if($request->hasFile('picture')){
+        $image=$request->file('picture');
+        $imageName='Category_image-'.uniqid().'-'.time().'.'.$image->getClientOriginalExtension();
+        if(!Storage::disk('public')->exists('category/image')){
+            Storage::disk('public')->makeDirectory('category/image');
+        }
+        Image::make($image)->resize(1600,479)->save(public_path('storage/category/image/'.$imageName));
+
+        if(!Storage::disk('public')->exists('category/banner')){
+            Storage::disk('public')->makeDirectory('category/banner');
+        }
+        Image::make($image)->resize(500,333)->save(public_path('storage/category/banner/'.$imageName));
+      }else{
+        $imageName="default.png";
+      }
+
+//multiple images
 //upate image in post 
 
 
@@ -59,4 +77,8 @@
             $imageName=$postInfo->post_image;
           }
 
+
+
+
+//
 ?>
